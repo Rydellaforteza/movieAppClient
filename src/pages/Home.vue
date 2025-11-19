@@ -15,9 +15,14 @@ import api from "../api";
 const movies = ref([]);
 
 onMounted(() => {
-  api.get("/movies/getMovies").then(res => {
-    movies.value = res.data.movies;
-  });
+  api.get("/movies/getMovies")
+    .then(res => {
+      movies.value = res.data?.movies || [];
+    })
+    .catch(err => {
+      console.error("Failed to load movies:", err);
+      movies.value = []; 
+    });
 });
 </script>
 
